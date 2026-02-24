@@ -14,6 +14,7 @@ namespace ProvaPratica.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             AddRepositories(services);
+            
             if (configuration.IsTestEnvironment() == false)
             {
                 AddDbContext(services, configuration);
@@ -42,5 +43,7 @@ namespace ProvaPratica.Infrastructure
             services.AddDbContext<ProvaPraticaDbContext>(options =>
                 options.UseNpgsql(connectionString));
         }
+
+       
     }
 }

@@ -28,6 +28,7 @@ namespace ProvaPratica.Application
             services.AddScoped<IUpdateProductUseCase, UpdateProductUseCase>();
             services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();
             services.AddScoped<IGetAllProductsUseCase, GetAllProductsUseCase>();
+            
 
           
         }

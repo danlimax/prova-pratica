@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ProvaPratica.Application.Products.Commands;
 using ProvaPratica.Application.Products.Delete;
 using ProvaPratica.Application.Products.GetAll;
 using ProvaPratica.Application.Products.Register;
@@ -12,6 +14,15 @@ namespace ProvaPratica.Api.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        private static readonly string[] AllowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
+        private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+
+        public ProductsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
         [HttpGet]
         [ProducesResponseType(typeof(ResponseProductsJson), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -58,9 +69,36 @@ namespace ProvaPratica.Api.Controllers
             return NoContent();
         }
 
-      
+        [HttpPost("{productId:int}/image")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UploadImage(int productId, IFormFile file, CancellationToken cancellationToken)
+        {
+            if (file is null || file.Length == 0)
+                return BadRequest("Nenhum arquivo enviado.");
 
+            if (file.Length > MaxFileSizeBytes)
+                return BadRequest("Arquivo excede o tamanho máximo de 5 MB.");
 
-       
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            if (!AllowedExtensions.Contains(extension))
+                return BadRequest($"Extensão não permitida. Use: {string.Join(", ", AllowedExtensions)}");
+
+            await using var stream = file.OpenReadStream();
+
+            var command = new UploadProductImageCommand(
+                productId,
+                stream,
+                file.FileName,
+                file.ContentType
+            );
+
+            var imageUrl = await _mediator.Send(command, cancellationToken);
+
+            return Ok(new { imageUrl });
+        }
+
     }
 }

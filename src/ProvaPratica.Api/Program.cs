@@ -1,9 +1,12 @@
 using ProvaPratica.Api.Filters;
 using ProvaPratica.Api.Milddleware;
 using ProvaPratica.Application;
+using ProvaPratica.Domain.Interfaces;
 using ProvaPratica.Infrastructure;
+using ProvaPratica.Infrastructure.Extensions;
 using ProvaPratica.Infrastructure.Extentions;
 using ProvaPratica.Infrastructure.Migrations;
+using ProvaPratica.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +17,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(
+        typeof(ProvaPratica.Application.Products.Handlers.UploadProductImageHandler).Assembly
+    )
+);
+builder.Services.AddStorageService(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 10 * 1024 * 1024;
+});
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var storage = scope.ServiceProvider.GetRequiredService<IStorageService>();
+    await ((MinioStorageService)storage).EnsureBucketExistsAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

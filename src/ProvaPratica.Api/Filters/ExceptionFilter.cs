@@ -35,13 +35,13 @@ namespace ProvaPratica.Api.Filters
 
         private void ThorwUnkowError(ExceptionContext context)
         {
-            var errorResponse = new ResponseErrorJson("Erro desconhecido");
+            // 👇 Adicione isso temporariamente
+            var mensagemReal = context.Exception.ToString();
 
-           
+            var errorResponse = new ResponseErrorJson($"Erro desconhecido: {mensagemReal}");
+
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Result = new ObjectResult(errorResponse);
-
-
         }
 
     }

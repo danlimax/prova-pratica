@@ -58,7 +58,7 @@ namespace ProvaPratica.Infrastructure.DataAccess.Repositories
 
             if (Image is not null)
             {
-                query = query.Where(product => product.Image.Contains(Image));
+                query = query.Where(product => product.Image!.Contains(Image));
             }
 
             return await query.ToListAsync();

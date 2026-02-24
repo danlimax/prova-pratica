@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="MediatR" Version="13.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
 
@@ -16,6 +17,10 @@
     <ProjectReference Include="..\ProvaPratica.Communication\ProvaPratica.Communication.csproj" />
     <ProjectReference Include="..\ProvaPratica.Domain\ProvaPratica.Domain.csproj" />
     <ProjectReference Include="..\ProvaPratica.Exception\ProvaPratica.Exception.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Products\UploadImage\" />
   </ItemGroup>
 
 </Project>

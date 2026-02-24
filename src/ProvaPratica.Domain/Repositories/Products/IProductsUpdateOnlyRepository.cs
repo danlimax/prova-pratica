@@ -5,6 +5,6 @@ namespace ProvaPratica.Domain.Repositories.Products
     public interface IProductsUpdateOnlyRepository
     {
         Task<Product?> GetById(int id);
-        void Update(Product reward);
+        void Update(Product product);
     }
 }
