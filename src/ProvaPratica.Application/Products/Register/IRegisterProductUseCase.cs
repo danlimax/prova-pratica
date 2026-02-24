@@ -3,7 +3,7 @@ using ProvaPratica.Communication.Responses;
 
 namespace ProvaPratica.Application.Products.Register
 {
-    public interface IRegisterProductsUseCase
+    public interface IRegisterProductUseCase
     {
         Task<ResponseRegistredProductJson> Execute(RequestProductJson request);
     }

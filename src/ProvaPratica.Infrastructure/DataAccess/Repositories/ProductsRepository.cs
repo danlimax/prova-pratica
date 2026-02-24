@@ -1,6 +1,7 @@
-﻿using ProvaPratica.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProvaPratica.Domain.Entities;
+using ProvaPratica.Domain.Filters;
 using ProvaPratica.Domain.Repositories.Products;
-using Microsoft.EntityFrameworkCore;
 
 namespace ProvaPratica.Infrastructure.DataAccess.Repositories
 {
@@ -19,20 +20,37 @@ namespace ProvaPratica.Infrastructure.DataAccess.Repositories
 
         public async Task Delete(int id)
         {
-            var result = await _dbContext.Products.FindAsync(id);
+             var product = await _dbContext.Products.FindAsync(id);
 
-            _dbContext.Products.Update(result!);
+            _dbContext.Products.Remove(product!);
         }
 
-        public async Task<List<Product>> GetAll()
+        public async Task<List<Product>> GetAll(ProductFilter filter)
         {
-            return await _dbContext.Products.AsNoTracking().ToListAsync();
+            var query = _dbContext.Products.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(filter.Category))
+                query = query.Where(p => p.Category.Contains(filter.Category));
+
+            if (filter.MinPrice.HasValue)
+                query = query.Where(p => p.Price >= filter.MinPrice.Value);
+
+            if (filter.MaxPrice.HasValue)
+                query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+
+            return await query.ToListAsync();
         }
 
         async Task<Product?> IProductsUpdateOnlyRepository.GetById(int id)
         {
-            return await _dbContext.Products.FirstOrDefaultAsync(reward => reward.Id == id);
+            return await _dbContext.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
+
+        async Task<Product?> IProductsReadOnlyRepository.GetById(int id)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(product => product.Id == id);
+        }
+
 
 
         public void Update(Product product)

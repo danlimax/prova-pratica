@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProvaPratica.Application.AutoMapper;
+using ProvaPratica.Application.Products.Delete;
+using ProvaPratica.Application.Products.GetAll;
 using ProvaPratica.Application.Products.Register;
+using ProvaPratica.Application.Products.Update;
 
 namespace ProvaPratica.Application
 {
@@ -21,8 +24,10 @@ namespace ProvaPratica.Application
         private static void AddUseCases(IServiceCollection services)
         {
             
-            services.AddScoped<IRegisterProductsUseCase, RegisterProductUseCase>();
-            
+            services.AddScoped<IRegisterProductUseCase, RegisterProductUseCase>();
+            services.AddScoped<IUpdateProductUseCase, UpdateProductUseCase>();
+            services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();
+            services.AddScoped<IGetAllProductsUseCase, GetAllProductsUseCase>();
 
           
         }

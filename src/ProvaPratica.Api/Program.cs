@@ -1,5 +1,9 @@
-using ProvaPratica.Infrastructure;
+using ProvaPratica.Api.Filters;
+using ProvaPratica.Api.Milddleware;
 using ProvaPratica.Application;
+using ProvaPratica.Infrastructure;
+using ProvaPratica.Infrastructure.Extentions;
+using ProvaPratica.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
@@ -22,7 +28,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<CultureMiddleware>();
+
+
 app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 
@@ -41,3 +51,5 @@ async Task MigrateDatabase()
 
     await DataBaseMigration.MigrateDatabase(scope.ServiceProvider);
 }
+
+public partial class Program { }

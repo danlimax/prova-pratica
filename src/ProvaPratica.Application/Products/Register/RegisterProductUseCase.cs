@@ -4,10 +4,11 @@ using ProvaPratica.Communication.Responses;
 using ProvaPratica.Domain.Entities;
 using ProvaPratica.Domain.Repositories;
 using ProvaPratica.Domain.Repositories.Products;
+using ProvaPratica.Exception.ExceptionsBase;
 
 namespace ProvaPratica.Application.Products.Register
 {
-    public class RegisterProductUseCase : IRegisterProductsUseCase
+    public class RegisterProductUseCase : IRegisterProductUseCase
     {
         private readonly IProductsWriteOnlyRepository _repository;
         private readonly IUnitOfWork _unitOfWork;

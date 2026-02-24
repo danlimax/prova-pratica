@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PRODUCT_NAME_EMPTY" xml:space="preserve">
-    <value>The product name is empty.</value>
+    <value>O nome do produto está vazio.</value>
   </data>
   <data name="PRODUCT_CATEGORY_EMPTY" xml:space="preserve">
-    <value>The product category is empty.</value>
+    <value>A categoria do produto está vazia.</value>
   </data>
   <data name="PRICE_GREATER_THAN_ZERO" xml:space="preserve">
-    <value>The price of the product must be greater than zero.</value>
+    <value>O preço do produto precisar ser maior do que zero.</value>
   </data>
   <data name="PRODUCT_NOT_FOUND" xml:space="preserve">
-    <value>Product not found.</value>
+    <value>O produto não foi encontrado.</value>
   </data>
 </root>

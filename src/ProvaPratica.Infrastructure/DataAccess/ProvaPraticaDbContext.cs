@@ -12,10 +12,7 @@ namespace ProvaPratica.Infrastructure.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            //Podemos fazer indexação e os relacionamentos através do Entity Framework por aqui.
-
-            //Especificando o nome das tabelas sem que elas sejam acessadas e possam ser alteradas.
-            //modelBuilder.Entity<Tag>().ToTable("Tags");
+           
         }
     }
 }
