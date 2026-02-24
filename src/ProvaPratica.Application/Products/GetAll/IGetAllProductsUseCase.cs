@@ -6,6 +6,6 @@ namespace ProvaPratica.Application.Products.GetAll
     public interface IGetAllProductsUseCase
     {
 
-        Task<ResponseProductsJson> Execute(ProductsFilter filters);
+        Task<ResponseProductsJson> Execute(ProductsFilter filter);
     }
 }

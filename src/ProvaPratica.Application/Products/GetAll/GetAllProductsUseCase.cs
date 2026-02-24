@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ProvaPratica.Communication.Requests;
 using ProvaPratica.Communication.Responses;
-using ProvaPratica.Domain.Entities;
-using ProvaPratica.Domain.Filters;
 using ProvaPratica.Domain.Repositories.Products;
 
 namespace ProvaPratica.Application.Products.GetAll
@@ -17,12 +15,17 @@ namespace ProvaPratica.Application.Products.GetAll
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<ResponseProductsJson> Execute(ProductsFilter filters)
+        public async Task<ResponseProductsJson> Execute(ProductsFilter filter)
         {
 
-            var domainFilter = _mapper.Map<ProductFilter>(filters);
-
-            var result = await _repository.GetAll(domainFilter);
+            var result = await _repository.GetAll
+                (
+                filter.Category, 
+                filter.MinPrice, 
+                filter.MaxPrice,
+                filter.Status,
+                filter.Image
+                );
 
             return new ResponseProductsJson
             {

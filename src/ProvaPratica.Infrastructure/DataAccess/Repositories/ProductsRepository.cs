@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProvaPratica.Domain.Entities;
-using ProvaPratica.Domain.Filters;
 using ProvaPratica.Domain.Repositories.Products;
 
 namespace ProvaPratica.Infrastructure.DataAccess.Repositories
 {
+  
     public class ProductsRepository : IProductsReadOnlyRepository, IProductsUpdateOnlyRepository, IProductsWriteOnlyRepository
     {
         private readonly ProvaPraticaDbContext _dbContext;
@@ -25,18 +25,41 @@ namespace ProvaPratica.Infrastructure.DataAccess.Repositories
             _dbContext.Products.Remove(product!);
         }
 
-        public async Task<List<Product>> GetAll(ProductFilter filter)
+        public async Task<List<Product>> GetAll
+            (
+            string? Category,
+            decimal? MinPrice,
+            decimal? MaxPrice,
+            bool? Status,
+            string? Image
+            )
         {
-            var query = _dbContext.Products.AsNoTracking();
+            var query = _dbContext.Products.AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(filter.Category))
-                query = query.Where(p => p.Category.Contains(filter.Category));
+            if (Category is not null)
+            {
+                query = query.Where(product => product.Category.Contains(Category));
+            }
 
-            if (filter.MinPrice.HasValue)
-                query = query.Where(p => p.Price >= filter.MinPrice.Value);
+            if (MinPrice is not null)
+            {
+                query = query.Where(product => product.Price >= MinPrice.Value);
+            }
 
-            if (filter.MaxPrice.HasValue)
-                query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+            if (MaxPrice is not null)
+            {
+                query = query.Where(product => product.Price <= MaxPrice.Value);
+            }
+
+            if (Status is not null)
+            {
+                query = query.Where(product => product.Status == Status.Value);
+            }
+
+            if (Image is not null)
+            {
+                query = query.Where(product => product.Image.Contains(Image));
+            }
 
             return await query.ToListAsync();
         }

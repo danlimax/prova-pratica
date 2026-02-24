@@ -15,9 +15,9 @@ namespace ProvaPratica.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ResponseProductsJson), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetAllProducts([FromServices] IGetAllProductsUseCase useCase, [FromQuery] ProductsFilter filters)
+        public async Task<IActionResult> GetAllProducts([FromServices] IGetAllProductsUseCase useCase, [FromQuery] ProductsFilter filter)
         {
-            var response = await useCase.Execute(filters);
+            var response = await useCase.Execute(filter);
 
             if (response.Products.Count != 0)
                 return Ok(response);

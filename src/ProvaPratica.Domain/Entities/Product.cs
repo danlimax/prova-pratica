@@ -10,6 +10,6 @@
 
         public bool Status { get; set; }
 
-        public string Image { get; set; }= string.Empty;
+        public string Image { get; set; } = null!;
     }
 }
