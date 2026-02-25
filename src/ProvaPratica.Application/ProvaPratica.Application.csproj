@@ -19,8 +19,4 @@
     <ProjectReference Include="..\ProvaPratica.Exception\ProvaPratica.Exception.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Products\UploadImage\" />
-  </ItemGroup>
-
 </Project>
