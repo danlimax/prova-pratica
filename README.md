@@ -27,7 +27,7 @@ builder.Services
 
 ---
 
-## 🖼️ Diagrama da Arquitetura
+## 🖼️ Diagrama
 
 ![Diagrama](image.png)
 
