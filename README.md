@@ -29,12 +29,7 @@ builder.Services
 
 ## 🖼️ Diagrama da Arquitetura
 
-> 📌 Adicione aqui a imagem do diagrama do projeto
-
-```
-📁 docs/
-   └── diagrama-arquitetura.png
-```
+![Diagrama](image.png)
 
 (Insira aqui a imagem do diagrama explicando as camadas)
 
@@ -129,7 +124,7 @@ dotnet ef database update \
 
 ---
 
-![Diagrama](image.png)
+
 
 # 🧱 Princípios Aplicados
 
