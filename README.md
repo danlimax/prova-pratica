@@ -31,8 +31,6 @@ builder.Services
 
 ![Diagrama](image.png)
 
-(Insira aqui a imagem do diagrama explicando as camadas)
-
 ---
 
 # 🐳 Rodando com Docker
