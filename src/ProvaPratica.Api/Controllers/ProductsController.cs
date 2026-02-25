@@ -17,7 +17,7 @@ namespace ProvaPratica.Api.Controllers
         private readonly IMediator _mediator;
 
         private static readonly string[] AllowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
-        private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+        private const long MaxFileSizeBytes = 5 * 1024 * 1024; 
 
         public ProductsController(IMediator mediator)
         {
