@@ -27,16 +27,9 @@ builder.Services
 
 ---
 
-## 🖼️ Diagrama da Arquitetura
+## 🖼️ Diagrama
 
-> 📌 Adicione aqui a imagem do diagrama do projeto
-
-```
-📁 docs/
-   └── diagrama-arquitetura.png
-```
-
-(Insira aqui a imagem do diagrama explicando as camadas)
+![Diagrama](image.png)
 
 ---
 
@@ -55,6 +48,7 @@ O projeto possui `docker-compose.yml` configurado com **build automático da apl
 
 Na raiz do projeto, execute:
 
+Lembre-se de utilizar a .exemple.env para rodar o projeto e utilize o vs code apenas para subir o docker, o desenvolvimento do projeto foi feito totalmente no visual studio.
 ```bash
 docker-compose up --build
 ```
@@ -129,7 +123,7 @@ dotnet ef database update \
 
 ---
 
-![Diagrama](image.png)
+
 
 # 🧱 Princípios Aplicados
 
@@ -145,7 +139,7 @@ dotnet ef database update \
 
 - .NET 8
 - Entity Framework Core
-- PostgreSQL / MySQL (dependendo da configuração)
+- PostgreSQL
 - Docker
 - Swagger
 
