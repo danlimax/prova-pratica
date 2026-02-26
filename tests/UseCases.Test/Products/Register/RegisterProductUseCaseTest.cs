@@ -3,7 +3,9 @@ using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using ProvaPratica.Application.Products.Register;
 using ProvaPratica.Exception;
+using ProvaPratica.Exception.ExceptionsBase;
 using Shouldly;
+
 
 namespace UseCases.Test.Products.Register
 {
@@ -26,9 +28,15 @@ namespace UseCases.Test.Products.Register
         {
             var request = RequestProductJsonBuilder.Build();
             request.ProductName = string.Empty;
+
             var useCase = CreateUseCase();
-            var exception = await Should.ThrowAsync<ArgumentException>(async () => await useCase.Execute(request));
-            exception.Message.ShouldBe(ResourceErrorMessages.PRODUCT_NAME_EMPTY);
+            var act =  async () => await useCase.Execute(request);
+
+            var result = await act.ShouldThrowAsync<ErrorOnValidationException>();
+
+            result.ShouldSatisfyAllConditions(
+                ex => ex.GetErrors().Count.Equals(1),
+                ex => ex.GetErrors().Contains(ResourceErrorMessages.PRODUCT_NAME_EMPTY));
         }
         [Fact]
         public async Task Fail_When_ProductPrice_Is_Less_Than_Or_Equal_To_Zero()
@@ -36,17 +44,29 @@ namespace UseCases.Test.Products.Register
             var request = RequestProductJsonBuilder.Build();
             request.Price = 0;
             var useCase = CreateUseCase();
-            var exception = await Should.ThrowAsync<ArgumentException>(async () => await useCase.Execute(request));
-            exception.Message.ShouldBe(ResourceErrorMessages.PRICE_GREATER_THAN_ZERO);
+            var act = async () => await useCase.Execute(request);
+
+            var result = await act.ShouldThrowAsync<ErrorOnValidationException>();
+
+            result.ShouldSatisfyAllConditions(
+                ex => ex.GetErrors().Count.Equals(1),
+                ex => ex.GetErrors().Contains(ResourceErrorMessages.PRICE_GREATER_THAN_ZERO));
         }
         [Fact]
         public async Task ERROR_WHEN_PRODUCT_CATEGORY_IS_EMPTY()
         {
             var request = RequestProductJsonBuilder.Build();
             request.Category = string.Empty;
+
             var useCase = CreateUseCase();
-            var exception = await Should.ThrowAsync<ArgumentException>(async () => await useCase.Execute(request));
-            exception.Message.ShouldBe(ResourceErrorMessages.PRODUCT_CATEGORY_EMPTY);
+
+            var act =  async () => await useCase.Execute(request);
+
+            var result = await act.ShouldThrowAsync<ErrorOnValidationException>();
+
+            result.ShouldSatisfyAllConditions(
+                ex => ex.GetErrors().Count.Equals(1),
+                ex => ex.GetErrors().Contains(ResourceErrorMessages.PRODUCT_CATEGORY_EMPTY));
         }
 
         private RegisterProductUseCase CreateUseCase()
