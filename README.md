@@ -11,7 +11,7 @@ O projeto está containerizado com **Docker** e pode ser executado tanto via **D
 O projeto segue o padrão **DDD**, organizado em camadas bem definidas:
 
 - **Domain** → Entidades, Interfaces de Repositórios, Regras de Negócio
-- **Application** → Casos de uso (UseCases), DTOs, Regras de aplicação
+- **Application** → Casos de uso (UseCases), DTOs com (AutoMapper), Regras de aplicação
 - **Infrastructure** → Acesso a dados, Repositórios, Configurações externas
 - **API** → Controllers, Middlewares, Filtros
 
@@ -33,12 +33,16 @@ builder.Services
 
 ---
 
-# 🐳 Rodando com Docker
+# 🐳 Rodando o projeto Docker
 
 O projeto possui `docker-compose.yml` configurado com **build automático da aplicação**.
 
 ### ✅ Pré-requisitos
 
+- Clone o projeto:
+  ```
+    https://github.com/danlimax/prova-pratica.git
+  ```
 - Docker Desktop instalado
 - Docker Compose habilitado
 
@@ -49,6 +53,9 @@ O projeto possui `docker-compose.yml` configurado com **build automático da apl
 Na raiz do projeto, execute:
 
 Lembre-se de utilizar a .exemple.env para rodar o projeto e utilize o vs code apenas para subir o docker, o desenvolvimento do projeto foi feito totalmente no visual studio.
+
+Algumas credenciais estão no arquivo: appsettings.Development.json
+
 ```bash
 docker-compose up --build
 ```
@@ -74,7 +81,15 @@ Se estiver utilizando Swagger:
 ```
 http://localhost:5000/swagger
 ```
+Para acessar o Minio:
 
+```
+http://localhost:9000
+http://localhost:9001
+
+```
+Usuário: minioadmin
+Senha: minioadmin
 ---
 
 # 💻 Rodando pelo Visual Studio
@@ -88,7 +103,8 @@ Caso prefira rodar diretamente pelo Visual Studio:
 A aplicação também estará disponível em:
 
 ```
-http://localhost:5000
+https://localhost:7132
+http://localhost:5135
 ```
 
 ---
@@ -96,6 +112,13 @@ http://localhost:5000
 # 🗄️ Migrations
 
 ## ✅ Execução automática
+
+Certifique se o dotnet-ef está instalado.
+
+Caso não esteja utilize o comando:
+```
+dotnet tool install --global dotnet-ef
+````
 
 As migrations são aplicadas automaticamente ao iniciar o projeto.
 
@@ -108,6 +131,8 @@ Caso precise gerar ou aplicar migrations manualmente:
 ### Criar uma nova migration
 
 ```bash
+cd src
+
 dotnet ef migrations add NomeDaMigration \
 --project src/ProvaPratica.Infrastructure \
 --startup-project src/ProvaPratica.Api
@@ -116,6 +141,8 @@ dotnet ef migrations add NomeDaMigration \
 ### Aplicar migration no banco
 
 ```bash
+cd src
+
 dotnet ef database update \
 --project src/ProvaPratica.Infrastructure \
 --startup-project src/ProvaPratica.Api
@@ -142,6 +169,7 @@ dotnet ef database update \
 - PostgreSQL
 - Docker
 - Swagger
+- Minio
 
 ---
 
